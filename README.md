@@ -12,6 +12,7 @@
 ## How to use
 
 Add in your `logging.php` the following under `channels` tab:
+
        ```
        'datadog'    => [
             'driver' => 'custom',
@@ -22,6 +23,7 @@ Add in your `logging.php` the following under `channels` tab:
             'bubble' => true,
         ],
         ```      
+        
 Refer to Monolog for the options, the only custom options are `region` (values can be `us|eu`) and `apiKey`
 
 ## License
