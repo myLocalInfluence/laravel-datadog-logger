@@ -11,6 +11,19 @@
 
 ## How to use
 
+Add in your `logging.php` the following under `channels` tab:
+       ```
+       'datadog'    => [
+            'driver' => 'custom',
+            'via'    => \Myli\CreateDataDogLogger::class,
+            'apiKey' => env('DATADOG_API_KEY'),
+            'region' => 'eu',
+            'level'  => 'debug',
+            'bubble' => true,
+        ],
+        ```      
+Refer to Monolog for the options, the only custom options are `region` (values can be `us|eu`) and `apiKey`
+
 ## License
 
 The Laravel DataDog Logger is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
