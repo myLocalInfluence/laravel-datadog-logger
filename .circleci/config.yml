@@ -1,0 +1,30 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:bionic
+
+    steps:
+      - run:
+          name: Update apt cache
+          command: apt update
+      - run:
+           name: Set timezone to GMT
+           command: ln -sf /usr/share/zoneinfo/GMT /etc/localtime
+      - run:
+           name: Install deps
+           command: apt install -y gpg
+           environment:
+             DEBIAN_FRONTEND: noninteractive
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
