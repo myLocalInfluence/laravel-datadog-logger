@@ -3,7 +3,7 @@
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-[![Maintainability](https://api.codeclimate.com/v1/badges/5ce73ef2de5fdebeee39/maintainability)](https://codeclimate.com/github/myLocalInfluence/laravel-datadog-logger/maintainability)
+<a href="https://codeclimate.com/github/myLocalInfluence/laravel-datadog-logger/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ce73ef2de5fdebeee39/maintainability" /></a>
 <a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/license.svg" alt="License"></a>
