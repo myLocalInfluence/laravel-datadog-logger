@@ -24,12 +24,13 @@ I would highly suggest you to use the DataDog Agent Style rather than the Api St
 
 2) Add in your `config/logging.php` the following under `channels` tab:
 
-        'datadog-agent' => [
-            'driver'     => 'single',
-            'path'       => storage_path('logs/laravel-json-datadog-' . php_sapi_name() . '.log'),
-            'tap'        => [\Myli\DatadogLogger\DataDogFormatter::class,],
+        'datadog-agent'    => [
+            'driver' => 'custom',
+            'via'    => CreateDataDogAgentLogger::class,
+            'path'   => storage_path('logs/laravel-json-datadog.log'),
+            'level'  => 'info',  // choose your minimum level of logging.
             'permission' => 0664,
-            'level'      => 'info', // choose your minimum level of logging.
+            'bubble' => true,
         ],
 3) Add `LOG_CHANNEL="datadog-agent"` in your `.env` file OR include `datadog-agent` channel into your stack log channel.
 4) Enable logs by setting `logs_enabled: true` in the default `/etc/datadog-agent/datadog.yaml` file on the server where the project is hosted.
