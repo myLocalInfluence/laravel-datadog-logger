@@ -11,7 +11,7 @@
 <a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/license.svg" alt="License"></a>
 </p>
 
-## How to use
+## How to use in API Style
 
 Add in your `config/logging.php` the following under `channels` tab:
 
