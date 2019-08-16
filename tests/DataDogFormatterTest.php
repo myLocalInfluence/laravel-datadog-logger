@@ -49,8 +49,9 @@ class DataDogFormatterTest extends \PHPUnit\Framework\TestCase
         $loggerMock = $this->createMock(Logger::class);
         $streamHandler = new StreamHandler('foourl');
         $loggerMock->method('getHandlers')->willReturn([$streamHandler]);
+        $laravelLogger = new \Illuminate\Log\Logger($loggerMock);
         $dataDogFormatter = new \Myli\DatadogLogger\DataDogFormatter();
-        $dataDogFormatter->__invoke($loggerMock);
+        $dataDogFormatter->__invoke($laravelLogger);
         self::assertEquals(DataDogFormatter::class, get_class($streamHandler->getFormatter()));
     }
 
