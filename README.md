@@ -7,7 +7,6 @@
 <a href="https://codeclimate.com/github/myLocalInfluence/laravel-datadog-logger/test_coverage"><img src="https://api.codeclimate.com/v1/badges/5ce73ef2de5fdebeee39/test_coverage" /></a>
 <img alt="GitHub release" src="https://img.shields.io/github/release/myLocalInfluence/laravel-datadog-logger">
 <a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/license.svg" alt="License"></a>
 </p>
 
