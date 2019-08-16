@@ -2,7 +2,7 @@
 <p align="center"><a href="https://www.datadoghq.com" target="_blank"><img width="80" height="80" src="https://imgix.datadoghq.com/img/dd_logo_70x75.png?fm=png&auto=format&lossless=1%22"></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://travis-ci.org/myLocalInfluence/laravel-datadog-logger"><img src="https://travis-ci.org/myLocalInfluence/laravel-datadog-logger.svg" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/myLocalInfluence/laravel-datadog-logger/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ce73ef2de5fdebeee39/maintainability" /></a>
 <a href="https://codeclimate.com/github/myLocalInfluence/laravel-datadog-logger/test_coverage"><img src="https://api.codeclimate.com/v1/badges/5ce73ef2de5fdebeee39/test_coverage" /></a>
 <img alt="GitHub release" src="https://img.shields.io/github/release/myLocalInfluence/laravel-datadog-logger">
