@@ -35,9 +35,9 @@ I would highly suggest you to use the DataDog Agent Style rather than the Api St
 3) Add `LOG_CHANNEL="datadog-agent"` in your `.env` file OR include `datadog-agent` channel into your stack log channel.
 4) Enable logs by setting `logs_enabled: true` in the default `datadog.yml` file on the server where the project is hosted.
 5) Choose only one config between those 3 files to put in `/etc/datadog-agent/conf.d/laravel.d/` (create the `laravel.d` folder if it doesn't exist) : 
-    1) Logging only php-cli
-    2) Logging only php-fpm
-    3) Logging php-fpm and php-cli
+    1) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/cli-only/conf.yaml">Logging only php-cli</a>
+    2) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/fpm-only/conf.yaml">Logging only php-fpm</a>
+    3) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/cli-fpm/conf.yaml">Logging php-fpm and php-cli</a>
 6) Restart your DataDog Agent and watch your result <a href="https://app.datadoghq.com/logs/livetail">here</a>.
 
 Notes: At this time the `source` metadata from the DataDogFormatter is not taken care by DataDog so that's why we are specifying it in the `/etc/datadog-agent/conf.d/laravel.d/conf.yaml` file.
