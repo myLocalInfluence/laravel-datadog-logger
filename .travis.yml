@@ -3,16 +3,25 @@ language: php
 php:
   - '7.1'
   - '7.2'
-  -
+  - '7.3'
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=988c9f33e2c70c3e8682bf3b32c6bd62f2bf4be624f8083eff7d1a35527ed42f
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 cache:
   directories:
     - $HOME/.composer/cache
 
 before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
   - composer install --no-progress --no-interaction --prefer-dist --no-suggest
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover clover.xml
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:
   email: false
