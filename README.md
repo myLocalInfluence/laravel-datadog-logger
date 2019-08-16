@@ -28,6 +28,10 @@ Add in your `config/logging.php` the following under `channels` tab:
         
 Refer to Monolog for the options, the only custom options are `region` (values can be `us|eu`) and `apiKey` which you can find <a href="https://app.datadoghq.com/account/settings#api">here</a>
 
+## Be Careful !
+
+Since Laravel send logs one by one, it means one API Call for one log ! So if your application sends a lot of logs it might affect a lot your performances !
+
 ## If you ❤️ open-source software, give the repos you use a ⭐️.
 We have included the awesome `symfony/thanks` composer package as a dev
 dependency. Let your OS package maintainers know you appreciate them by starring
