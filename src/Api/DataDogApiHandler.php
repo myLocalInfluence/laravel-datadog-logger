@@ -1,6 +1,6 @@
 <?php
 
-namespace Myli\DatadogLogger;
+namespace Myli\DatadogLogger\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -10,14 +10,14 @@ use Monolog\Handler\MissingExtensionException;
 use Monolog\Logger;
 
 /**
- * Class DataDogHandler
+ * Class DataDogApiHandler
  *
- * @package   DatadogLogger
+ * @package   Myli\DatadogLogger\Api
  * @author    Aurélien SCHILTZ <aurelien@myli.io>
  * @copyright 2016-2019 Myli
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-class DataDogHandler extends AbstractProcessingHandler
+class DataDogApiHandler extends AbstractProcessingHandler
 {
     protected const HOST_US = 'http-intake.logs.datadoghq.com';
     protected const HOST_EU = 'http-intake.logs.datadoghq.eu';
@@ -48,7 +48,7 @@ class DataDogHandler extends AbstractProcessingHandler
     public function __construct(string $token, bool $europeRegion = false, $level = Logger::DEBUG, bool $bubble = true)
     {
         if (!extension_loaded('curl')) {
-            throw new MissingExtensionException('The curl extension is needed to use the DataDogHandler');
+            throw new MissingExtensionException('The curl extension is needed to use the DataDogApiHandler');
         }
         $this->token = $token;
         $this->host  = $europeRegion ? self::HOST_EU : self::HOST_US;
@@ -56,33 +56,23 @@ class DataDogHandler extends AbstractProcessingHandler
     }
 
     /**
-     * Get the Client
+     * Get the Token
      *
-     * @return ClientInterface
+     * @return string
      */
-    protected function getHttpClient() : ClientInterface
+    public function getToken()
     {
-        if (!$this->httpClient) {
-            $this->httpClient = $this->initHttpClient();
-        }
-
-        return $this->httpClient;
+        return $this->token;
     }
 
     /**
-     * Init a Guzzle Client
+     * Get the region of this DataDogApiHandler
      *
-     * @return Client
+     * @return string
      */
-    private function initHttpClient()
+    public function getRegion()
     {
-        $guzzleClient = new Client([
-            'base_uri'    => sprintf("https://%s/v1/input/%s", $this->host, $this->token),
-            'http_errors' => false,// we don't want the logger to stop the application for a failed log
-            'debug'       => false,
-        ]);
-
-        return $guzzleClient;
+        return $this->host === self::HOST_EU ? 'eu' : 'us';
     }
 
     /**
@@ -121,6 +111,36 @@ class DataDogHandler extends AbstractProcessingHandler
     }
 
     /**
+     * Get the Client
+     *
+     * @return ClientInterface
+     */
+    protected function getHttpClient() : ClientInterface
+    {
+        if (!$this->httpClient) {
+            $this->httpClient = $this->initHttpClient();
+        }
+
+        return $this->httpClient;
+    }
+
+    /**
+     * Init a Guzzle Client
+     *
+     * @return Client
+     */
+    private function initHttpClient()
+    {
+        $guzzleClient = new Client([
+            'base_uri'    => sprintf("https://%s/v1/input/%s", $this->host, $this->token),
+            'http_errors' => false,// we don't want the logger to stop the application for a failed log
+            'debug'       => false,
+        ]);
+
+        return $guzzleClient;
+    }
+
+    /**
      * Get the DataDogFormatter
      *
      * @return DataDogFormatter
@@ -128,25 +148,5 @@ class DataDogHandler extends AbstractProcessingHandler
     protected function getDefaultFormatter() : DataDogFormatter
     {
         return new DataDogFormatter();
-    }
-
-    /**
-     * Get the Token
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * Get the region of this DataDogHandler
-     *
-     * @return string
-     */
-    public function getRegion()
-    {
-        return $this->host === self::HOST_EU ? 'eu' : 'us';
     }
 }
