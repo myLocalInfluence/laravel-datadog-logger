@@ -29,8 +29,10 @@ class DataDogFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormatRecord(array $inputRecord, string $expectedRecord)
     {
-        $time = $this->getFunctionMock('\Myli\DatadogLogger', "gethostname");
-        $time->expects($this->any())->willReturn('foohostname');
+        $gethostnameFunction = $this->getFunctionMock('\Myli\DatadogLogger', "gethostname");
+        $configFunction = $this->getFunctionMock('\Myli\DatadogLogger', "config");
+        $gethostnameFunction->expects($this->any())->willReturn('foohostname');
+        $configFunction->expects($this->any())->willReturn('laravel-datadog-logger');
         $dataDogFormatter = new \Myli\DatadogLogger\DataDogFormatter();
 
         $record = $dataDogFormatter->format($inputRecord);

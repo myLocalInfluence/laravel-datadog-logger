@@ -11,26 +11,52 @@
 <a href="https://packagist.org/packages/myli/laravel-datadog-logger"><img src="https://poser.pugx.org/myli/laravel-datadog-logger/license.svg" alt="License"></a>
 </p>
 
-## How to use in API Style
+# Getting started
 
-Add in your `config/logging.php` the following under `channels` tab:
+Simply launch this command in your root laravel project : 
 
-       
-       'datadog'    => [
+`composer require myli/laravel-datadog-logger`
+
+I would highly suggest you to use the DataDog Agent Style rather than the Api Style because one laravel log = one api call which is bad for performances.
+
+## 1) How to use in DataDog Agent Style
+
+1) Firstly, install the agent by <a href="https://app.datadoghq.com/account/settings#agent">following this guide here</a>
+
+2) Add in your `config/logging.php` the following under `channels` tab:
+
+        'datadog-agent' => [
+            'driver'     => 'single',
+            'path'       => storage_path('logs/laravel-json-datadog-' . php_sapi_name() . '.log'),
+            'tap'        => [\Myli\DatadogLogger\DataDogFormatter::class,],
+            'permission' => 0664,
+            'level'      => 'info', // choose your minimum level of logging.
+        ],
+3) Add `LOG_CHANNEL="datadog-agent"` in your `.env` file OR include `datadog-agent` channel into your stack log channel.
+4) Enable logs by setting `logs_enabled: true` in the default `datadog.yml` file on the server where the project is hosted.
+5) Choose only one config between those 3 files to put in `/etc/datadog-agent/conf.d/laravel.d/` (create the `laravel.d` folder if it doesn't exist) : 
+    1) Logging only php-cli
+    2) Logging only php-fpm
+    3) Logging php-fpm and php-cli
+6) Restart your DataDog Agent and watch your result <a href="https://app.datadoghq.com/logs/livetail">here</a>.
+
+Notes: At this time the `source` metadata from the DataDogFormatter is not taken care by DataDog so that's why we are specifying it in the `/etc/datadog-agent/conf.d/laravel.d/conf.yaml` file.
+
+## 2) How to use in API Style
+
+1) Add in your `config/logging.php` the following under `channels` tab:
+
+       'datadog-api'    => [
             'driver' => 'custom',
             'via'    => \Myli\CreateDataDogLogger::class,
             'apiKey' => env('DATADOG_API_KEY'),
-            'region' => 'eu',
-            'level'  => 'debug',
+            'region' => 'eu', // eu or us
+            'level'  => 'info',  // choose your minimum level of logging.
             'bubble' => true,
         ],
             
-        
-Refer to Monolog for the options, the only custom options are `region` (values can be `us|eu`) and `apiKey` which you can find <a href="https://app.datadoghq.com/account/settings#api">here</a>
-
-## Be Careful !
-
-Since Laravel send logs one by one, it means one API Call for one log ! So if your application sends a lot of logs it might affect a lot your performances !
+2) And finally add `LOG_CHANNEL="datadog-api"` in your `.env` file OR include `datadog-api` channel into your stack log channel.
+3) The only custom options are `region` (values can be `us|eu`) and `apiKey` which you can find <a href="https://app.datadoghq.com/account/settings#api">here</a>
 
 ## If you ❤️ open-source software, give the repos you use a ⭐️.
 We have included the awesome `symfony/thanks` composer package as a dev

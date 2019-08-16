@@ -1,0 +1,4 @@
+logs:
+  - type: file
+    path: /home/deploy/projects/myworkers/current/storage/logs/laravel-json-datadog-cli.log
+    source: 'cli'

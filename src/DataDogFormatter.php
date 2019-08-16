@@ -59,7 +59,7 @@ class DataDogFormatter extends JsonFormatter
             $record['status'] = $record['level_name'];
         }
         $record['ddsource'] = 'php-' . php_sapi_name();
-        $record['service']  = env('APP_NAME');
+        $record['service']  = config('app.name');
         $record['hostname'] = gethostname();
 
         return parent::format($record);
