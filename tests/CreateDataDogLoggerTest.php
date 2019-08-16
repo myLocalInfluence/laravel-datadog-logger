@@ -1,5 +1,7 @@
 <?php
 
+namespace Myli\Testing;
+
 use Monolog\Handler\MissingExtensionException;
 use Myli\DatadogLogger\CreateDataDogLogger;
 use Myli\DatadogLogger\DataDogHandler;
