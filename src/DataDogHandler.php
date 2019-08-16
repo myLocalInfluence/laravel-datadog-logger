@@ -108,7 +108,7 @@ class DataDogHandler extends AbstractProcessingHandler
     {
         $client = $this->getHttpClient();
         try {
-            $client->request('POST', sprintf('?ddsource=%s&service=%s&hostname=%s', 'php' . php_sapi_name(), env('APP_NAME'), gethostname()), [
+            $client->request('POST', '', [
                 'headers'         => [
                     'Content-Type' => 'application/json',
                 ],
