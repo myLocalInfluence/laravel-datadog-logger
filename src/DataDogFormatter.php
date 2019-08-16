@@ -2,8 +2,8 @@
 
 namespace Myli\DatadogLogger;
 
+use Illuminate\Log\Logger;
 use Monolog\Formatter\JsonFormatter;
-use Monolog\Logger;
 
 /**
  * Class DataDogFormatter
@@ -25,6 +25,10 @@ class DataDogFormatter extends JsonFormatter
      */
     public function __invoke(Logger $logger)
     {
+        /**
+         * @var \Monolog\Logger $logger We can assume it's a monolog logger since
+         * Laravel's Logger has _call function calling the logger directly
+         */
         foreach ($logger->getHandlers() as $handler) {
             $handler->setFormatter($this);
         }
