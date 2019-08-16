@@ -18,7 +18,7 @@ Simply launch this command in your root laravel project :
 
 I would highly suggest you to use the DataDog Agent Style rather than the Api Style because one laravel log = one api call which is bad for performances.
 
-## 1) How to use in DataDog Agent Style
+## 1) How to use in DataDog Agent Style (Example for an ubuntu installation)
 
 1) Firstly, install the agent by <a href="https://app.datadoghq.com/account/settings#agent">following this guide here</a>
 
@@ -32,7 +32,7 @@ I would highly suggest you to use the DataDog Agent Style rather than the Api St
             'level'      => 'info', // choose your minimum level of logging.
         ],
 3) Add `LOG_CHANNEL="datadog-agent"` in your `.env` file OR include `datadog-agent` channel into your stack log channel.
-4) Enable logs by setting `logs_enabled: true` in the default `datadog.yml` file on the server where the project is hosted.
+4) Enable logs by setting `logs_enabled: true` in the default `/etc/datadog-agent/datadog.yaml` file on the server where the project is hosted.
 5) Choose only one config between those 3 files to put in `/etc/datadog-agent/conf.d/laravel.d/` (create the `laravel.d` folder if it doesn't exist) : 
     1) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/cli-only/conf.yaml">Logging only php-cli</a>
     2) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/fpm-only/conf.yaml">Logging only php-fpm</a>
