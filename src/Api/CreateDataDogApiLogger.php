@@ -1,26 +1,29 @@
 <?php
 
-namespace Myli\DatadogLogger;
+namespace Myli\DatadogLogger\Api;
 
+use Exception;
 use Monolog\Handler\MissingExtensionException;
 use Monolog\Logger;
+use Myli\DatadogLogger\ApiKeyNotFoundException;
 
 /**
- * Class CreateDataDogLogger
+ * Class CreateDataDogApiLogger
  *
- * @package   Myli\DatadogLogger
+ * @package   Myli\DatadogLogger\Api
  * @author    Aurélien SCHILTZ <aurelien@myli.io>
  * @copyright 2016-2019 Myli
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-class CreateDataDogLogger
+class CreateDataDogApiLogger
 {
     /**
-     * Create DataDogLogger
+     * Create the DataDog Api Logger
      *
      * @param array $config
      *
      * @return Logger
+     * @throws ApiKeyNotFoundException
      * @throws MissingExtensionException
      */
     public function __invoke(array $config)
@@ -30,10 +33,15 @@ class CreateDataDogLogger
             $isEuropeRegion = true;
         }
         if (empty($config['apiKey'])) {
-            throw new \Exception('apiKey not set for DataDogLogger');
+            throw new ApiKeyNotFoundException();
         }
-        $dataDogHandler = new DataDogHandler($config['apiKey'], $isEuropeRegion, $config['level'] ?? Logger::DEBUG, $config['bubble'] ?? true);
+        $dataDogHandler = new DataDogApiHandler(
+            $config['apiKey'],
+            $isEuropeRegion,
+            $config['level'] ?? Logger::DEBUG,
+            $config['bubble'] ?? true
+        );
 
-        return (new Logger('datadog'))->pushHandler($dataDogHandler);
+        return (new Logger('datadog-api'))->pushHandler($dataDogHandler);
     }
 }

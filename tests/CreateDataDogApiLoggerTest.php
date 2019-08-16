@@ -3,19 +3,21 @@
 namespace Myli\Testing;
 
 use Monolog\Handler\MissingExtensionException;
-use Myli\DatadogLogger\CreateDataDogLogger;
-use Myli\DatadogLogger\DataDogHandler;
+use Myli\DatadogLogger\Api\CreateDataDogApiLogger;
+use Myli\DatadogLogger\Api\DataDogApiHandler;
+use Myli\DatadogLogger\ApiKeyNotFoundException;
 use PHPUnit\Framework\TestCase;
 
 
 /**
- * Class DataDogLoggerTest
+ * Class CreateDataDogApiLoggerTest
  *
+ * @package   Myli\Testing
  * @author    Aurélien SCHILTZ <aurelien@myli.io>
  * @copyright 2016-2019 Myli
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-class CreateDataDogLoggerTest extends TestCase
+class CreateDataDogApiLoggerTest extends TestCase
 {
 
     /**
@@ -26,7 +28,7 @@ class CreateDataDogLoggerTest extends TestCase
      */
     public function testConfigFileEuRegion()
     {
-        $dataDogLoggerCreator = new CreateDataDogLogger();
+        $dataDogLoggerCreator = new CreateDataDogApiLogger();
         $configFile           = [
             'apiKey' => 'apiKey',
             'level'  => 200,
@@ -35,7 +37,7 @@ class CreateDataDogLoggerTest extends TestCase
         ];
         $dataDogLogger        = $dataDogLoggerCreator->__invoke($configFile);
         /**
-         * @var DataDogHandler $dataDogHandler
+         * @var DataDogApiHandler $dataDogHandler
          */
         $dataDogHandler = $dataDogLogger->getHandlers()[0];
         self::assertEquals(false, $dataDogHandler->getBubble());
@@ -52,7 +54,7 @@ class CreateDataDogLoggerTest extends TestCase
      */
     public function testConfigFileUsRegion()
     {
-        $dataDogLoggerCreator = new CreateDataDogLogger();
+        $dataDogLoggerCreator = new CreateDataDogApiLogger();
         $configFile           = [
             'apiKey' => 'apiKey',
             'level'  => 200,
@@ -61,7 +63,7 @@ class CreateDataDogLoggerTest extends TestCase
         ];
         $dataDogLogger        = $dataDogLoggerCreator->__invoke($configFile);
         /**
-         * @var DataDogHandler $dataDogHandler
+         * @var DataDogApiHandler $dataDogHandler
          */
         $dataDogHandler = $dataDogLogger->getHandlers()[0];
         self::assertEquals(false, $dataDogHandler->getBubble());
@@ -78,7 +80,7 @@ class CreateDataDogLoggerTest extends TestCase
      */
     public function testConfigFileNoRegion()
     {
-        $dataDogLoggerCreator = new CreateDataDogLogger();
+        $dataDogLoggerCreator = new CreateDataDogApiLogger();
         $configFile           = [
             'apiKey' => 'apiKey',
             'level'  => 200,
@@ -86,7 +88,7 @@ class CreateDataDogLoggerTest extends TestCase
         ];
         $dataDogLogger        = $dataDogLoggerCreator->__invoke($configFile);
         /**
-         * @var DataDogHandler $dataDogHandler
+         * @var DataDogApiHandler $dataDogHandler
          */
         $dataDogHandler = $dataDogLogger->getHandlers()[0];
         self::assertEquals(false, $dataDogHandler->getBubble());
@@ -103,13 +105,13 @@ class CreateDataDogLoggerTest extends TestCase
      */
     public function testConfigFileNoConfigExceptApiKey()
     {
-        $dataDogLoggerCreator = new CreateDataDogLogger();
+        $dataDogLoggerCreator = new CreateDataDogApiLogger();
         $configFile           = [
             'apiKey' => 'apiKey',
         ];
         $dataDogLogger        = $dataDogLoggerCreator->__invoke($configFile);
         /**
-         * @var DataDogHandler $dataDogHandler
+         * @var DataDogApiHandler $dataDogHandler
          */
         $dataDogHandler = $dataDogLogger->getHandlers()[0];
         self::assertEquals(true, $dataDogHandler->getBubble());
@@ -126,12 +128,13 @@ class CreateDataDogLoggerTest extends TestCase
      */
     public function testConfigFileNoApiKey()
     {
-        $dataDogLoggerCreator = new CreateDataDogLogger();
-        self::expectException(\Exception::class);
+        $dataDogLoggerCreator = new CreateDataDogApiLogger();
+        self::expectException(ApiKeyNotFoundException::class);
         self::expectExceptionMessage('apiKey not set for DataDogLogger');
+        self::expectExceptionCode(500);
         $dataDogLogger = $dataDogLoggerCreator->__invoke([]);
         /**
-         * @var DataDogHandler $dataDogHandler
+         * @var DataDogApiHandler $dataDogHandler
          */
         $dataDogHandler = $dataDogLogger->getHandlers()[0];
     }

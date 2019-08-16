@@ -2,13 +2,13 @@
 
 namespace Myli\DatadogLogger;
 
-use Illuminate\Log\Logger;
+use DateTime;
 use Monolog\Formatter\JsonFormatter;
 
 /**
  * Class DataDogFormatter
  *
- * @package   DatadogLogger
+ * @package   Myli\DatadogLogger
  * @author    Aurélien SCHILTZ <aurelien@myli.io>
  * @copyright 2016-2019 Myli
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -16,23 +16,7 @@ use Monolog\Formatter\JsonFormatter;
 class DataDogFormatter extends JsonFormatter
 {
 
-    /**
-     * Set this formatter to the logger
-     *
-     * @param $logger
-     *
-     * @return void
-     */
-    public function __invoke(Logger $logger)
-    {
-        /**
-         * @var \Monolog\Logger $logger We can assume it's a monolog logger since
-         * Laravel's Logger has _call function calling the logger directly
-         */
-        foreach ($logger->getHandlers() as $handler) {
-            $handler->setFormatter($this);
-        }
-    }
+    const LARAVEL_LOG_DATETIME_KEY = 'datetime';
 
     /**
      * Appends every variable needed by DataDog
@@ -47,18 +31,20 @@ class DataDogFormatter extends JsonFormatter
      */
     public function format(array $record)
     {
-        if (isset($record['datetime']) && ($record['datetime'] instanceof \DateTime)) {
+        if (isset($record[self::LARAVEL_LOG_DATETIME_KEY]) &&
+            ($record[self::LARAVEL_LOG_DATETIME_KEY] instanceof DateTime)) {
             /**
-             * @var \DateTime $dateTimeObj
+             * @var DateTime $dateTimeObj
              */
-            $dateTimeObj              = $record['datetime'];
-            $record['published_date'] = $dateTimeObj->format(\DateTime::ISO8601);
+            $dateTimeObj              = $record[self::LARAVEL_LOG_DATETIME_KEY];
+            $record['published_date'] = $dateTimeObj->format(DateTime::ISO8601);
         }
 
         if (isset($record['level_name'])) {
             $record['status'] = $record['level_name'];
         }
         $record['ddsource'] = 'php-' . php_sapi_name();
+        $record['source']   = 'php-' . php_sapi_name();
         $record['service']  = config('app.name');
         $record['hostname'] = gethostname();
 

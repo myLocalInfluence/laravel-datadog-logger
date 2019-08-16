@@ -3,19 +3,21 @@
 namespace Myli\Testing;
 
 use Illuminate\Support\Carbon;
-use Myli\DatadogLogger\DataDogFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Myli\DatadogLogger\Agent\DataDogAgentFormatter;
 use phpmock\phpunit\PHPMock;
 
 
 /**
- * Class DataDogFormatterTest
+ * Class DataDogAgentFormatterTest
  *
  * @package   Myli\Testing
  * @author    Aurélien SCHILTZ <aurelien@myli.io>
  * @copyright 2016-2019 Myli
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-class DataDogFormatterTest extends \PHPUnit\Framework\TestCase
+class DataDogAgentFormatterTest extends \PHPUnit\Framework\TestCase
 {
     use PHPMock;
 
@@ -27,17 +29,34 @@ class DataDogFormatterTest extends \PHPUnit\Framework\TestCase
      *
      * @return void
      */
-    public function testFormatRecord(array $inputRecord, string $expectedRecord)
+    public function testFormatRecordAgent(array $inputRecord, string $expectedRecord)
     {
         $gethostnameFunction = $this->getFunctionMock('\Myli\DatadogLogger', "gethostname");
         $configFunction = $this->getFunctionMock('\Myli\DatadogLogger', "config");
         $gethostnameFunction->expects($this->any())->willReturn('foohostname');
         $configFunction->expects($this->any())->willReturn('laravel-datadog-logger');
-        $dataDogFormatter = new DataDogFormatter();
+        $dataDogFormatter = new DataDogAgentFormatter();
 
         $record = $dataDogFormatter->format($inputRecord);
 
         self::assertEquals($expectedRecord, $record);
+    }
+
+    /**
+     * Test Invoke DataDogAgentFormatter
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testInvoke()
+    {
+        $loggerMock = $this->createMock(Logger::class);
+        $streamHandler = new StreamHandler('foourl');
+        $loggerMock->method('getHandlers')->willReturn([$streamHandler]);
+        $laravelLogger = new \Illuminate\Log\Logger($loggerMock);
+        $dataDogFormatter = new DataDogAgentFormatter();
+        $dataDogFormatter->__invoke($laravelLogger);
+        self::assertEquals(DataDogAgentFormatter::class, get_class($streamHandler->getFormatter()));
     }
 
     public function recordProvider()
