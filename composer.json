@@ -1,7 +1,7 @@
 {
   "name": "myli/laravel-datadog-logger",
   "type": "library",
-  "description": "Custom monolog logger for datadog log",
+  "description": "Custom laravel monolog logger for datadog logs management, both api and agent ways",
   "keywords": [
     "php",
     "laravel",
