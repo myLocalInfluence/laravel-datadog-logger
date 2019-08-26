@@ -1,4 +1,4 @@
 logs:
   - type: file
-    path: /home/deploy/projects/myworkers/current/storage/logs/laravel-json-datadog-fpm.log
+    path: /path/to/your/project/storage/logs/laravel-json-datadog-fpm-fcgi.log
     source: 'fpm'
