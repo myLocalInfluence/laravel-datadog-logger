@@ -22,41 +22,33 @@ I would highly suggest you to use the DataDog Agent Style rather than the Api St
 
 1) Firstly, install the agent by <a href="https://app.datadoghq.com/account/settings#agent">following this guide here</a>
 
-2) Add in your `config/logging.php` the following under `channels` tab:
+1) Please fill in your .env the following values:
 
-        'datadog-agent'    => [
-            'driver' => 'custom',
-            'via'    => CreateDataDogAgentLogger::class,
-            'path'   => storage_path('logs/laravel-json-datadog.log'),
-            'level'  => 'info',  // choose your minimum level of logging.
-            'permission' => 0664,
-            'bubble' => true,
-        ],
+       DATADOG_STORAGE_PATH="logs/laravel-json-datadog.log"
+       DATADOG_PERMISSIONS=0644 // Default to 0644 if no value provided
+       DATADOG_LEVEL="info" // Default to info if no value provided
+       DATADOG_BUBBLE=true // Default to true if no value provided
+        
 3) Add `LOG_CHANNEL="datadog-agent"` in your `.env` file OR include `datadog-agent` channel into your stack log channel.
 4) Enable logs by setting `logs_enabled: true` in the default `/etc/datadog-agent/datadog.yaml` file on the server where the project is hosted.
 5) Choose only one config between those 3 files to put in `/etc/datadog-agent/conf.d/laravel.d/` (create the `laravel.d` folder if it doesn't exist) : 
-    1) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/cli-only/conf.yaml">Logging only php-cli</a>
-    2) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/fpm-only/conf.yaml">Logging only php-fpm</a>
-    3) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/conf/cli-fpm/conf.yaml">Logging php-fpm and php-cli</a>
+    1) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/config/agent/cli-only/conf.yaml">Logging only php-cli</a>
+    2) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/config/agent/fpm-only/conf.yaml">Logging only php-fpm</a>
+    3) <a href="https://github.com/myLocalInfluence/laravel-datadog-logger/blob/master/config/agent/cli-fpm/conf.yaml">Logging php-fpm and php-cli</a>
 6) Restart your DataDog Agent and watch your result <a href="https://app.datadoghq.com/logs/livetail">here</a>.
 
 Notes: At this time the `source` metadata from the DataDogFormatter is not taken care by DataDog so that's why we are specifying it in the `/etc/datadog-agent/conf.d/laravel.d/conf.yaml` file.
 
 ## 2) How to use in API Style
 
-1) Add in your `config/logging.php` the following under `channels` tab:
+1) Please fill in your .env the following values (<a href="https://app.datadoghq.com/account/settings#api">How to obtain ApiKey ?</a>) :
 
-       'datadog-api'    => [
-            'driver' => 'custom',
-            'via'    => \Myli\CreateDataDogLogger::class,
-            'apiKey' => env('DATADOG_API_KEY'),
-            'region' => 'eu', // eu or us
-            'level'  => 'info',  // choose your minimum level of logging.
-            'bubble' => true,
-        ],
+`DATADOG_API_KEY="YOUR_API_KEY"
+DATADOG_REGION="eu|us" // Default to eu if no value provided
+DATADOG_LEVEL="info" // Default to info if no value provided
+DATADOG_BUBBLE=true // Default to true if no value provided`
             
 2) And finally add `LOG_CHANNEL="datadog-api"` in your `.env` file OR include `datadog-api` channel into your stack log channel.
-3) The only custom options are `region` (values can be `us|eu`) and `apiKey` which you can find <a href="https://app.datadoghq.com/account/settings#api">here</a>
 
 ## If you ❤️ open-source software, give the repos you use a ⭐️.
 We have included the awesome `symfony/thanks` composer package as a dev

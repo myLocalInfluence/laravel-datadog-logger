@@ -115,13 +115,27 @@ class DataDogApiHandler extends AbstractProcessingHandler
      *
      * @return ClientInterface
      */
-    protected function getHttpClient() : ClientInterface
+    public function getHttpClient() : ClientInterface
     {
         if (!$this->httpClient) {
             $this->httpClient = $this->initHttpClient();
         }
 
         return $this->httpClient;
+    }
+
+    /**
+     * Set an http client
+     *
+     * @param ClientInterface $client
+     *
+     * @return DataDogApiHandler
+     */
+    public function setHttpClient(ClientInterface $client) : DataDogApiHandler
+    {
+        $this->httpClient = $client;
+
+        return $this;
     }
 
     /**
@@ -138,15 +152,5 @@ class DataDogApiHandler extends AbstractProcessingHandler
         ]);
 
         return $guzzleClient;
-    }
-
-    /**
-     * Get the DataDogFormatter
-     *
-     * @return DataDogFormatter
-     */
-    protected function getDefaultFormatter() : DataDogFormatter
-    {
-        return new DataDogFormatter();
     }
 }

@@ -26,18 +26,16 @@ class CreateDataDogAgentLogger
      */
     public function __invoke(array $config)
     {
-        if (empty($config['path'])) {
+        if ($config['path'] === storage_path()) {
             $config['path'] = storage_path('logs/laravel-json-datadog.log');
         }
 
-        if (\is_string($config['path'])) {
-            $pathInfo       = pathinfo($config['path']);
-            $config['path'] = str_replace(
-                $pathInfo['filename'],
-                $pathInfo['filename'] . '-' . php_sapi_name(),
-                $config['path']
-            );
-        }
+        $pathInfo       = pathinfo($config['path']);
+        $config['path'] = str_replace(
+            $pathInfo['filename'],
+            $pathInfo['filename'] . '-' . php_sapi_name(),
+            $config['path']
+        );
 
         $streamHandler = new StreamHandler(
             $config['path'],
