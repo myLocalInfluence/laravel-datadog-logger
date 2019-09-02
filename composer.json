@@ -37,6 +37,13 @@
     "symfony/thanks": "*",
     "php-mock/php-mock-phpunit": "^2.4"
   },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Myli\\DatadogLogger\\Providers\\DataDogServiceProvider"
+      ]
+    }
+  },
   "autoload": {
     "psr-4": {
       "Myli\\DatadogLogger\\": "src/"
