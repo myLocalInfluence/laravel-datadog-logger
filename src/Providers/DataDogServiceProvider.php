@@ -2,9 +2,9 @@
 
 namespace Myli\DatadogLogger\Providers;
 
-use App\Console\Commands\DeleteDataDogLog;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
+use Myli\DatadogLogger\Commands\DeleteDataDogLog;
 
 /**
  * Class DataDogServiceProvider

@@ -6,7 +6,7 @@
  *
  */
 
-namespace App\Console\Commands;
+namespace Myli\DatadogLogger\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Log\Logger;
