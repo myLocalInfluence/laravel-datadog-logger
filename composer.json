@@ -1,5 +1,5 @@
 {
-  "name": "myli/laravel-datadog-logger",
+  "name": "pieterza/laravel-datadog-logger",
   "type": "library",
   "description": "Custom laravel monolog logger for datadog logs management, both api and agent ways",
   "keywords": [
@@ -29,7 +29,6 @@
   ],
   "require": {
     "php": ">=7.1",
-    "laravel/framework": "^5.6|^5.7|^5.8",
     "guzzlehttp/guzzle": "^6.0"
   },
   "require-dev": {
