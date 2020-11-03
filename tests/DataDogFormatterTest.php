@@ -53,7 +53,7 @@ class DataDogFormatterTest extends \PHPUnit\Framework\TestCase
                     "datetime"   => new Carbon('2019-08-14 09:58:10.764107', 'UTC'),
                     "extra"      => []
                 ],
-                '{"message":"test","context":[],"level":200,"level_name":"INFO","channel":null,"datetime":"2019-08-14T09:58:10.764107Z","extra":[],"published_date":"2019-08-14T09:58:10+0000","status":"INFO","ddsource":"php-cli","source":"php-cli","service":"laravel-datadog-logger","hostname":"foohostname"}' . PHP_EOL
+                '{"message":"test","context":{},"level":200,"level_name":"INFO","channel":null,"datetime":"2019-08-14T09:58:10.764107Z","extra":{},"published_date":"2019-08-14T09:58:10+0000","status":"INFO","ddsource":"php-cli","source":"php-cli","service":"laravel-datadog-logger","hostname":"foohostname"}' . PHP_EOL
             ],
             [
                 [
@@ -67,7 +67,7 @@ class DataDogFormatterTest extends \PHPUnit\Framework\TestCase
                     "datetime"   => new Carbon('2019-08-14 09:58:10.764107', 'UTC'),
                     "extra"      => []
                 ],
-                '{"message":"test","context":{"toto":"tata"},"level":100,"level_name":"DEBUG","channel":null,"datetime":"2019-08-14T09:58:10.764107Z","extra":[],"published_date":"2019-08-14T09:58:10+0000","status":"DEBUG","ddsource":"php-cli","source":"php-cli","service":"laravel-datadog-logger","hostname":"foohostname"}' . PHP_EOL
+                '{"message":"test","context":{"toto":"tata"},"level":100,"level_name":"DEBUG","channel":null,"datetime":"2019-08-14T09:58:10.764107Z","extra":{},"published_date":"2019-08-14T09:58:10+0000","status":"DEBUG","ddsource":"php-cli","source":"php-cli","service":"laravel-datadog-logger","hostname":"foohostname"}' . PHP_EOL
             ]
         ];
 

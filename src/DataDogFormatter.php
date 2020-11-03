@@ -18,6 +18,14 @@ class DataDogFormatter extends JsonFormatter
 
     const LARAVEL_LOG_DATETIME_KEY = 'datetime';
 
+    public function __construct(
+        int $batchMode = self::BATCH_MODE_JSON,
+        bool $appendNewline = true,
+        bool $ignoreEmptyContextAndExtra = false
+    ) {
+        parent::__construct($batchMode, $appendNewline, $ignoreEmptyContextAndExtra);
+    }
+
     /**
      * Appends every variable needed by DataDog
      *
@@ -29,13 +37,10 @@ class DataDogFormatter extends JsonFormatter
      * @see  \Monolog\Formatter\JsonFormatter::format()
      * @see  https://docs.datadoghq.com/logs/processing/#reserved-attributes
      */
-    public function format(array $record)
+    public function format(array $record): string
     {
         if (isset($record[self::LARAVEL_LOG_DATETIME_KEY]) &&
             ($record[self::LARAVEL_LOG_DATETIME_KEY] instanceof DateTime)) {
-            /**
-             * @var DateTime $dateTimeObj
-             */
             $dateTimeObj              = $record[self::LARAVEL_LOG_DATETIME_KEY];
             $record['published_date'] = $dateTimeObj->format(DateTime::ISO8601);
         }
