@@ -29,7 +29,7 @@ class DataDogFormatter extends JsonFormatter
      * @see  \Monolog\Formatter\JsonFormatter::format()
      * @see  https://docs.datadoghq.com/logs/processing/#reserved-attributes
      */
-    public function format(array $record)
+    public function format(array $record): string
     {
         if (isset($record[self::LARAVEL_LOG_DATETIME_KEY]) &&
             ($record[self::LARAVEL_LOG_DATETIME_KEY] instanceof DateTime)) {
