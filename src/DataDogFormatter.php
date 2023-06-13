@@ -47,6 +47,14 @@ class DataDogFormatter extends JsonFormatter
         $record['source']   = 'php-' . php_sapi_name();
         $record['service']  = config('app.name');
         $record['hostname'] = gethostname();
+        
+        if(extension_loaded('DDTrace')){
+            $context = \DDTrace\current_context();
+            $record['dd'] = [
+                'trace_id' => $context['trace_id'],
+                'span_id'  => $context['span_id'],
+            ];
+        }
 
         return parent::format($record);
     }
